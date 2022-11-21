@@ -1,0 +1,63 @@
+
+Title: Create the following collection  in mongodb
+Student(rollno, name, address, contact_no, department)
+Write a menu driven program in python to connect with the database  and to perform the  following operation
+
+Python Program:
+
+import pymongo
+
+client=pymongo.MongoClient('mongodb://127.0.0.1:27017/')
+
+mydb=client['db'] 
+
+Student=mydb.Student
+
+choice = 1
+while(choice > 0):   
+
+    print("--------------------------:OPERATIONS:----------------------------")
+    print("1.Insert\n2.Display\n3.Update\n4.Delete\n0.Exit")
+    choice = int(input("Enter your choice: "))
+    if (choice == 1):
+        name = input("Enter your name: ")
+        rollno = input("Enter your roll no: ")
+        dept = input("Enter your department: ")        
+        contact = input("Enter your contact no: ")
+        address = input("Enter your address: ")
+        Student.insert_one({'Name':name, 'RollNo':rollno, 'Department':dept, 'Address':address, 'Contact':contact})
+
+    elif (choice == 2):
+        for item in Student.find():
+            print(item)
+
+    elif (choice == 3):
+        rno = input("Enter roll no of the student")
+        contact = input("Enter new contact no: ")
+        address = input("Enter new address: ")
+        Student.update_one({'RollNo':rno}, {"$set":{'Contact':contact, 'Address':address}})
+
+    elif (choice == 4):
+        rno = input("Enter roll no of the student: ")
+        Student.remove({'RollNo':rno})
+        
+    elif (choice == 0):
+        print("You are out of the program!")
+
+    else:
+        print("Invalid Choice !")
+
+
+ 
+
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+
+
+
