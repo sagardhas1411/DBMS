@@ -1,0 +1,31 @@
+
+Title: MongoDB - Aggregation and Indexing: Design and Develop MongoDB Queries using aggregation and indexing with suitable example using MongoDB.
+Create the collection Books having the following fields    TITLE, DESCRIPTION, BY, URL, TAGS AND LIKES.
+Mongo DB Query & output:
+
+1.	Find the number of books published by john.
+db.Books.find({BY:"john"}).count()
+ 
+
+2.	Find books which have minimum likes and maximum likes published by john.
+db.Books.aggregate([{$group: {_id:"BY:$john",MINIMUM:{$min:"$LIKES"},MAXIMUM:{$max:"$LIKES"}}}])
+ 
+
+3.	Find the average number of likes of the books published by john.
+db.Books.aggregate([{$group:{_id:"BY:$john",Average:{$avg:"$LIKES"}}}])
+ 
+
+4.	Find the first and last book published by john..
+db.Books.aggregate([{$group:{_id:"BY:$john",First_Book:{$first:"$TITLE"},Last_Book:{$last:"$TITLE"}}}])
+ 
+
+
+
+5.	Create an index on author name.
+db.books.ensureIndex({"BY":1})
+ 
+
+           
+
+
+
