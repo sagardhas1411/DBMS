@@ -1,0 +1,65 @@
+
+Title: MongoDB - Map reduces operations: Implement Map reduces operation with suitable example using MongoDB
+Create the following schema 
+Order (id, amount ,status)
+
+Cus id	Amount 	Status
+A1	400	P
+B1	300	D
+A1	200	F
+C1	200	F
+B1	700	P
+B1	800	P
+Status: P=”Pending”, D= “Delivered”, F= “Failed”
+
+Mongo DB Query & output:
+
+db.createCollection("Order")
+ 
+db.Order.insert({CusId:'A1', Amount:400, Status:'P'})
+db.Order.insert({CusId:'B1', Amount:300, Status:'D'})
+db.Order.insert({CusId:'A1', Amount:200, Status:'F'})
+db.Order.insert({CusId:'C1', Amount:200, Status:'F'})
+db.Order.insert({CusId:'B1', Amount:700, Status:'P'})
+db.Order.insert({CusId:'B1', Amount:800, Status:'P'})
+
+
+
+db.Order.find().pretty()
+ 
+
+1.	Find the sum of amount of each customer whose status is P
+
+var mapfunction = function(){emit(this.CusId, this.Amount)}
+
+ var reducefunction = function(key, values){return Array.sum(values)}
+
+db.Order.mapReduce(mapfunction,reducefunction,{query:{Status:"P"},out:"Order_total"}).find()
+
+
+
+
+ 
+
+
+2	Find the average  amount of each customer
+
+db.Order.mapReduce(function(){emit(this.CusId,this.Amount);}, function(key, values){return Array.avg(values)}, {out:"average"})
+
+db.average.find().pretty()
+
+ 
+
+3	Find the min amount of each customer
+
+db.Order.mapReduce(function(){emit(this.CusId,this.Amount);}, function(key, values){return Math.min.apply(Math,values)}, {out:"average"}).find()
+
+ 
+
+
+4. Find the max amount of each customer whose status is F
+    db.Order.mapReduce(function(){emit(this.CusId,this.Amount);}, function(key, values){return Math.max.apply(Math,values)}, {query:{Status:"C"}, out:"average_C"}).find()
+ 
+
+
+
