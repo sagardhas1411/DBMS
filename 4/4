@@ -1,0 +1,123 @@
+Title: a) Unnamed PL/SQL code block: Use of Control structure and Exception handling is mandatory.
+Create a database with following schemas
+Borrower(Rollin, Name, DateofIssue, NameofBook, Status)  & Fine(Roll_no,Date,Amt) 
+1. Write a PL/SQL block to accept  input for Borrower table. 
+2. Write a PL/SQL block  using control structures to calculate fine by using the following 	rules:
+         	 a. check the number of days (from date of issue), if days are between 15 to 30 then fine 
+               amount will be Rs 5per day  
+        	  b.  If no. of days>30, per day fine will be Rs 50 per day
+        	  c.  for days less than 30, Rs. 5 per day. 
+After submitting the book, status will change from I to R.  If condition of fine is true, then 	details will be stored into fine table.
+b) Write a PL/SQL code block to calculate the area of a circle for a value of radius varying from 	5 to 9. Store the radius and the corresponding values of calculated area in an empty table 	named areas, consisting of two columns, radius and area
+
+SQL Query & Output:
+Step 1: Create table
+Table 1
+Borrower(Rollin, Name, DateofIssue, NameofBook, Status)  & Fine(Roll_no,Date,Amt) 
+
+create table Borrower(Roll_No number, NameofBook varchar2(30), DateofIssue Date, status varchar2(5));
+ 
+
+Table 2
+Fine(Roll_no,Date,Amt) 
+create table Fine(Roll_No number, DOR Date, Amt number);
+ 
+
+Step 2: Add records in the table
+
+insert into Borrower(Roll_No, NameofBook, DateofIssue, status) values (66, 'MongoDB Overview', '11-NOV-2022', 'I');
+
+insert into Borrower(Roll_No, NameofBook, DateofIssue, status) values (49, 'SQL Overview', '07-NOV-2022', 'I');
+
+insert into Borrower(Roll_No, NameofBook, DateofIssue, status) values (11, 'IoT Overview', '10-OCT-2022', 'I');
+
+insert into Borrower(Roll_No, NameofBook, DateofIssue, status) values (10, 'TOC Overview', '01-NOV-2022', 'I');
+
+ 
+
+Program
+SQL> ed prac4.1.sql
+
+set serveroutput on;
+
+Declare
+roll number;
+nameofbook varchar2(30);
+diff int;
+doi Borrower.DateofIssue%type;
+dateofreturn Borrower.DateofIssue%type;
+fine number;
+tmp Borrower%rowtype;
+
+Begin
+roll :=&roll;
+nameofbook :='&nameofbook';
+select Roll_no,NameofBook,DateofIssue into roll,nameofbook,doi from Borrower where Roll_no=roll and NameOfBook =nameofbook and status='I';
+
+dateofreturn :=SYSDATE;
+diff:=dateofreturn-doi;
+if(diff>=15 and diff<=30) then
+	fine:=diff*5;
+
+elsif(diff>30) then
+	fine:=diff*50;
+else
+	fine:=0;
+end if;
+	
+insert into Fine values(roll,dateofreturn,fine);
+update Borrower set status='R' where roll_no=roll and NameOfbook=nameofbook;
+End;
+/
+
+
+
+
+
+
+
+
+Output:
+
+SQL> @prac4.1.sql
+ 
+
+ 
+
+ 
+
+
+SQL Query & Output:
+
+Step 1: Create Table
+
+ areas(radius, area)
+
+create table areas(radius float, area float);
+
+Program:
+SQL> ed prac4.2.sql
+
+declare
+r number(5);
+area number(14,2);
+pi constant number (4,2):=3.14;
+
+begin
+r:=5;
+while r<=9
+loop
+area:=pi*power(r,2);
+insert into areas values(r,area );
+r:=r+1;
+end loop;
+end;
+/
+
+Output:
+
+SQL> @prac4.2.sql
+
+ 
+
+
