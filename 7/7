@@ -1,0 +1,87 @@
+Title: Create a Library database with the schema 	Books(AccNo,Title,Author,Publisher,Count).
+a. Create a table Library_Audit with same fields as of Books.
+b. Create a before trigger to insert records into Librry_Audit table if there is deletion 	in Books table.
+c. Create a after trigger to insert records into Librry_Audit table if there is updation in 	Books table.
+SQL Query & Output:
+Step 1: Create Table
+Table 1
+Books(AccNo,Title,Author,Publisher,Count)
+create table Books (AccNo number,Title varchar(50), Author varchar(20), Publisher varchar(30), Count number);
+ 
+
+Step 2: Add records in table
+
+insert into Books values(13266, 'Database System Concepts', 'Silberschatz A.', 'McGraw Hill Publishers', 20);
+
+insert into Books values(13249, 'Database Systems', 'Connally T', 'Pearson Education', 10);
+
+insert into Books values(13210, 'System Programming', 'John Donovan', 'McGraw Hill ', 15);
+
+
+insert into Books values(13211, 'System Programming and Operaing Systems', 'Dhamdhere D.', 'McGraw Hill', 7);
+
+ 
+
+A. Create a table Library_Audit with same fields as of Books.
+
+Table 2
+Library_Audit(AccNo,Title,Author,Publisher,Count)
+create table Library_Audit (AccNo number,Title varchar(50), Author varchar(20), Publisher varchar(30), Count number);
+ 
+
+B. Create a before trigger to insert records into Librry_Audit table if there is deletion 	in Books table.
+
+Program
+SQL> ed prac7.1.sql
+
+create or replace trigger delete_trigger before delete on Books
+for each row
+begin
+insert into Library_Audit values(:old.Accno,:old.Title,:old.Author,:old.publisher,:old.Count);
+
+end;
+/
+
+Output
+
+SQL> @prac7.1.sql
+ 
+
+> delete from Books where AccNo=13210;
+
+ 
+
+> select * from Library_Audit;
+
+ 
+
+
+
+C. Create a after trigger to insert records into Librry_Audit table if there is updation in Books table.
+
+Program
+SQL> ed prac7.2.sql
+
+create or replace trigger updatetrigger after update on Books
+for each row
+begin
+insert into Library_Audit values(:old.Accno,:old.Title,:old.Author,:old.publisher,:old.Count);
+
+end;
+/
+
+Output
+
+SQL> @prac7.2.sql
+ 
+
+ 
+
+> update Books set count=15 where AccNo=13266;
+ 
+
+> select * from Library_Audit;
+ 
+
+
+
