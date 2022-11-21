@@ -1,0 +1,156 @@
+Title: Consider the given relational table: 
+employee(empno , empname, designation, city, salary, zipcode, county)
+1. Creates a sequence used to generate employee numbers for the empno column of 	the emp table.
+2. Create an Index on county.
+3. Find the country whose zipcode= 071 and check whether the query uses the Index 	and write your observation.
+4. Create a view for employees having salary < 50000 and stays in ‘Mumbai’
+
+Consider the given database schema: 
+Student (studentid , studentname,instructorid,studentcity)
+Instructor(instructorid,Instructorname,instructorcity,specialization)
+Use all types of Joins
+1. Find the instructor of each student.
+2. Find the student who is not having any instructor.
+3. Find the student who is not having any instructor as well as instructor who is not having student.
+4. Find the students whose instructor’s specialization is computer.
+5. Create a view containing total number of students whose instructor belongs to “Pune”.
+
+SQL Query & Output:
+Step 1: Create database
+create database Prac3;
+
+ 
+Create Table in Prac3 database
+Table 1
+employee(empno , empname, designation, city, salary, zipcode, county)
+
+create table employee(empid int not null auto_increment, empname varchar(20), designation varchar(20), city varchar(15), salary int, zipcode int, country varchar(20), primary key(empid));
+
+ 
+Step 2: Add record in table
+
+insert into employee(empname, designation, city, salary, zipcode, country) values('Tanmay', 'Manager', 'Pune', 50000, 412101, 'India');
+insert into employee(empname, designation, city, salary, zipcode, country) values('Sagar', 'Executive', 'Pune', 51000, 412107, 'India');
+
+insert into employee(empname, designation, city, salary, zipcode, country) values('Shweta', 'Coordinator', 'Delhi', 40000, 110001, 'India');
+
+insert into employee(empname, designation, city, salary, zipcode, country) values('Vaibhavi', 'Team Leader', 'Mumbai', 45000, 400001, 'India');
+
+insert into employee(empname, designation, city, salary, zipcode, country) values('Swanand', 'Director', 'Mumbai', 48000, 400005, 'India');
+
+insert into employee(empname, designation, city, salary, zipcode, country) values('Abhishek', 'Executive', 'New York', 60000, 100002, 'USA');
+
+insert into employee(empname, designation, city, salary, zipcode, country) values('Om', 'Assistant Manager', 'Boston', 45000, 100071, 'USA');
+
+insert into employee(empname, designation, city, salary, zipcode, country) values('Akanksha', 'Administrator', 'London', 55000, 100008, ‘UK’);
+
+insert into employee(empname, designation, city, salary, zipcode, country) values('Deepti', 'CTO', 'Mancchester', 58000, 122051, 'UK');
+
+ 
+
+Query:
+1.   Creates a sequence used to generate employee numbers for the empno column of the emp table.
+
+> create table employee(empid int not null auto_increment, empname varchar(20), designation varchar(20), city varchar(15), salary int, zipcode int, country varchar(20), primary key(empid));
+
+ 
+
+2.  Create an Index on county.
+
+> create index country_idx on employee(country);
+
+ 
+
+3. Find the country whose zipcode= 071 and check whether the query uses the Index and write your observation
+
+> select country from employee where zipcode=100071;
+
+ 
+
+4.  Create a view for employees having salary < 50000 and stays in ‘Mumbai’
+
+> create view view_emp as select * from employee where salary<50000 and city like 'Mumbai';
+
+ 
+
+> select * from view_emp;
+ 
+
+
+SQL Query & output:
+
+Step 1 create database
+create database Student;
+
+ 
+
+Create Table in Employee database
+Table 1
+Student (studentid , studentname,instructorid,studentcity)
+CREATE TABLE Student (STUDENT_ID int, STUDENT_NAME varchar(255), INSTRUCTOR_ID int, STUDENT_CITY varchar(255) );
+
+ 
+
+Table 2
+Instructor(instructorid,Instructorname,instructorcity,specialization)
+CREATE TABLE INSTRUCTOR (INSTRUCTOR_ID int, INSTRUCTOR_NAME varchar(255), INSTRUCTOR_CITY varchar(255), SPECIALIZATION varchar(255));
+ 
+
+Step 2 Add record in tables
+
+Student Table
+
+INSERT INTO Student (STUDENT_ID, STUDENT_NAME, INSTRUCTOR_ID, STUDENT_CITY) VALUES ('1', 'Sagar', '101', 'Pune');
+
+INSERT INTO Student(STUDENT_ID, STUDENT_NAME, INSTRUCTOR_ID, STUDENT_CITY) VALUES ('2', 'Om', '102', 'Pune');
+INSERT INTO Student (STUDENT_ID, STUDENT_NAME, INSTRUCTOR_ID, STUDENT_CITY) VALUES ('3', 'Deepti', '103', 'Pune');
+
+INSERT INTO Student (STUDENT_ID, STUDENT_NAME, INSTRUCTOR_ID, STUDENT_CITY) VALUES ('4', 'Vaibhavi', '104', 'Pune');
+
+INSERT INTO Student (STUDENT_ID, STUDENT_NAME, INSTRUCTOR_ID, STUDENT_CITY) VALUES ('5', 'Tanmay', '105', 'Pune');
+
+INSERT INTO Student (STUDENT_ID, STUDENT_NAME, INSTRUCTOR_ID, STUDENT_CITY) VALUES ('6', 'Ganesh', '106', 'Pune');
+
+INSERT INTO Student (STUDENT_ID, STUDENT_NAME, INSTRUCTOR_ID, STUDENT_CITY) VALUES ('7', 'Akanksha', '107', 'Pune');
+
+ 
+
+Instructor Table
+INSERT INTO INSTRUCTOR (INSTRUCTOR_ID, INSTRUCTOR_NAME, INSTRUCTOR_CITY, SPECIALIZATION) VALUES ('101', 'A. V. Tavare','Pune', 'Software Engineering');
+
+INSERT INTO INSTRUCTOR (INSTRUCTOR_ID, INSTRUCTOR_NAME, INSTRUCTOR_CITY, SPECIALIZATION) VALUES ('102', ' P. S. Kamalapur','Mumbai', ' Discrete Mathematics');
+
+INSERT INTO INSTRUCTOR (INSTRUCTOR_ID, INSTRUCTOR_NAME, INSTRUCTOR_CITY, SPECIALIZATION) VALUES ('103', ' P. S. Kamalapur','Mumbai', ' Discrete Mathematics');
+
+INSERT INTO INSTRUCTOR (INSTRUCTOR_ID, INSTRUCTOR_NAME, INSTRUCTOR_CITY, SPECIALIZATION) VALUES ('104', ' P. S. Mahajan','Mumbai', ' Big Data');
+
+INSERT INTO INSTRUCTOR (INSTRUCTOR_ID, INSTRUCTOR_NAME, INSTRUCTOR_CITY, SPECIALIZATION) VALUES ('105', ' A. I. Khalid','Pune', ' Digital');
+
+INSERT INTO INSTRUCTOR (INSTRUCTOR_ID, INSTRUCTOR_NAME, INSTRUCTOR_CITY, SPECIALIZATION) VALUES ('106', ' A. P. Jadhav','Nashik', ' Java Programming');
+
+INSERT INTO INSTRUCTOR (INSTRUCTOR_ID, INSTRUCTOR_NAME, INSTRUCTOR_CITY, SPECIALIZATION) VALUES ('107', ' K. D. Munot','Mumbai', ' Computer');
+ 
+
+Query:
+1.	Find the instructor of each student.
+select s.STUDENT_NAME,i.INSTRUCTOR_NAME from student s,instructor i where s.INSTRUCTOR_ID=i.INSTRUCTOR_ID;
+ 
+
+2.	Find the student who is not having any instructor.
+select STUDENT_NAME from student where INSTRUCTOR_ID is NULL;
+ 
+
+3.	Find the student who is not having any instructor as well as instructor who is not having student.
+select STUDENT_NAME as STUDENTS_INSTRUCTORS from student where INSTRUCTOR_ID is NULL) union (select i.INSTRUCTOR_NAME from student s right join instructor i on s.INSTRUCTOR_ID=i.INSTRUCTOR_ID where s.INSTRUCTOR_ID is NULL);
+ 
+
+4.	Find the students whose instructor’s specialization is computer
+select s.STUDENT_NAME from student s, instructor i where s.INSTRUCTOR_ID=i.INSTRUCTOR_ID and i.SPECIALIZATION=”Computer”;
+ 
+
+5.	Create a view containing total number of students whose instructor belongs to “Pune”.
+create view v1 as select count(STUDENT_NAME) from student s, instructor i where s.INSTRUCTOR_ID=i.INSTRUCTOR_ID and i.INSTRUCTOR_CITY like ‘Pune’; 
+
+ 
+
+
