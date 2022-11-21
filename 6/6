@@ -1,0 +1,167 @@
+Title: Cursors: (All types: Implicit, Explicit, Cursor FOR Loop, Parameterized Cursor) Write a PL/SQL block of code using parameterized Cursor that will merge the data availablein the newly created table N_RollCall with the data available in the table O_RollCall. If the data in the first table already exist in the second table then that data should be skipped.
+
+SQL Query & Output:
+Step 1: Create Table
+Table 1
+O_Rollcall(Roll_No, Name)
+create table O_rollcoll(Roll_No number, Name varchar(10));
+ 
+
+Table 2
+N_Rollcall(Roll_No, Name)
+create table N_Rollcall(Roll_No number, Name varchar(10));
+ 
+
+Step 2: Add records in the tables
+O_rollcoll Table
+
+insert into O_Rollcoll values(13266, 'Tanmay');
+
+insert into O_Rollcoll values(13249, 'Sagar');
+
+insert into O_Rollcoll values(13210, 'Swanand');
+
+insert into O_Rollcoll values(13211, 'Shweta');
+
+ 
+
+N_RollCall Table
+
+insert into N_Rollcall values(13207, 'Om');
+
+insert into N_Rollcall values(13230, 'Abhishek');
+
+insert into N_Rollcall values(13249, 'Sagar');
+
+ 
+Implicit Cursor
+SQL> ed prac6.1.sql
+
+set serveroutput on;
+begin
+update O_Rollcoll set Name='Tanmay W' where Roll_No=13266;
+if sql%found then
+	dbms_output.put_line('Row Updated');
+end if;
+if sql%notfound then
+	dbms_output.put_line('No row Found');	
+end if;
+if sql%rowcount>0 then
+	dbms_output.put_line(sql%rowcount ||' Row Updated');
+end if;
+end;
+/
+
+Output
+
+SQL> @prac6.1.sql
+ 
+
+ 
+
+
+Explicit Cursor
+SQL> ed prac6.2.sql
+
+set serveroutput on;
+declare
+cursor Explicit_cur is select * from O_Rollcoll;
+tmp Explicit_cur%rowtype;
+begin
+dbms_output.put_line('Roll_no    Name'); 
+dbms_output.put_line('----------------');
+open Explicit_cur;
+loop 
+fetch explicit_cur into tmp ;
+exit when Explicit_cur%notfound;
+dbms_output.put_line(tmp.Roll_no||'        '||tmp.name);
+end loop;
+close Explicit_cur;
+end;
+/
+
+Output
+
+SQL> @prac6.2.sql
+ 
+
+
+Cursor FOR
+SQL> ed prac6.3.sql
+
+declare
+cursor for_cursor is select * from N_Rollcall;
+tmp for_cursor%rowtype;
+begin
+dbms_output.put_line('Roll_no    Name'); 
+dbms_output.put_line('----------------');
+for tmp in for_cursor loop
+dbms_output.put_line(tmp.roll_no||'          '||tmp.name);
+end loop;
+end;
+/
+
+Output
+
+SQL> @prac6.3.sql
+ 
+
+Parameterized Cursor
+SQL> ed prac6.4.sql
+
+declare
+cursor param_cursor(roll number) is select * from O_Rollcoll where Roll_No=roll; 
+tmp param_cursor%rowtype;
+begin
+open param_cursor(13249);
+fetch param_cursor into tmp; 
+dbms_output.put_line('Roll_no    Name'); 
+dbms_output.put_line('----------------');
+dbms_output.put_line(tmp.roll_no||'          '||tmp.name);
+end;
+/
+
+Output
+
+SQL> @prac6.4.sql
+ 
+
+
+Merging PL/SQL Block
+SQL> ed prac6.5.sql
+
+begin
+merge into N_Rollcall using O_Rollcoll on (N_Rollcall.Roll_No=O_Rollcoll.Roll_No) when not matched then insert values(O_Rollcoll.Roll_No,O_Rollcoll.Name);
+if sql%notfound then
+	dbms_output.put_line('No Row Merged');
+end if;
+if sql%rowcount>0 then
+	dbms_output.put_line(sql%rowcount||' Row merged');
+end if;
+end;
+/
+
+Output
+
+SQL> @prac6.5.sql
+ 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
