@@ -1,0 +1,66 @@
+Title: Named PL/SQL Block: PL/SQL Stored Procedure and Stored Function. Write a Stored Procedure namely proc_Grade for the categorization of student. If marks scoredby students in examination is <=1500 and marks>=990 then student will be placed in distinction category if marks scored are between 989 and 900 category is first class, if marks 899 and 825 category is Higher Second Class. Write a PL/SQL block to use procedure created with above requirement. Stud_Marks(name, total_marks) Result(Roll,Name, Class) Note: Instructor will frame the problem statement for writing stored procedure and Function in line with above statement.
+
+SQL Query & Output:
+Step 1: Create Table
+Table 1
+Result(Roll,Name, Class)
+create table result(Roll_No number, name varchar2(20), class varchar2(20));
+ 
+Table 2
+Stud_Marks(name, total_marks)
+create table Stud_Marks(name varchar2(20), total number);
+ 
+
+Program:
+Procedure:
+SQL> ed prac5.sql
+
+SET SERVEROUT ON
+CREATE OR REPLACE PROCEDURE proc_Grade ( roll_no IN NUMBER, name IN VARCHAR2 ,marks IN NUMBER) AS
+	BEGIN
+		IF (marks<=1500 and marks>=990) THEN
+			DBMS_OUTPUT.PUT_LINE ('DISTINCTION');
+			INSERT INTO result VALUES (roll_no,name,'DISTINCTION');
+		ELSIF (marks<=989 and marks>=900) THEN
+			DBMS_OUTPUT.PUT_LINE ('FIRST CLASS');
+			INSERT INTO result VALUES (roll_no,name,'FIRST CLASS');
+		ELSIF (marks<=899 and marKs>825) THEN
+			DBMS_OUTPUT.PUT_LINE('HIGHER SECOND CLASS');
+			INSERT INTO result VALUES (roll_no,name,'HIGHER SECOND CLASS');
+		ELSE
+			DBMS_OUTPUT.PUT_LINE ('FAIL');
+			INSERT INTO result VALUES (roll_no,name,'FAIL');
+	    END IF;
+	    INSERT INTO stud_marks VALUES (name,marks);
+    END proc_Grade;
+/
+
+Execution Block
+SQL> ed prac5EXE.sql
+declare
+roll number;
+name varchar2(30);
+marks number;
+class varchar2(30);
+
+begin
+roll:=&roll;
+name:='&name';
+marks:=&marks;
+Proc_Grade(roll,name,marks);
+End;
+/
+
+Output:
+
+SQL> @prac5.sql
+ 
+
+SQL> @prac5EXE.sql
+ 
+
+ 
+
+ 
+
+
