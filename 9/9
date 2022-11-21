@@ -1,0 +1,124 @@
+
+Title: MongoDB Queries: Design and Develop MongoDB Queries using CRUD operations. (Use CRUD operations, SAVE method, logical operators etc.).
+Implement the following Mongo DB Query
+
+Mongo DB Query & output:
+
+1.	Create a collection named books. 
+
+db.createCollection("Books")
+ 
+
+2	Insert 5 records with field TITLE, DESCRIPTION,BY,URL,TAGS LIKES AND 
+
+db.Books.insert({TITLE:"MongoDB",DESCRIPTION:"Book for MongoDB database",BY:"john",URL:"www.mongodb.org",TAGS:"NoSQL",LIKES:100000000})
+
+ 
+
+db.Books.insert({TITLE:"Software Engineering",DESCRIPTION:"includes software engineering processes",BY:"Roger Pressman",URL:"www.mcgrawhills.org",TAGS:"Software",LIKES:10000000})
+
+ 
+
+db.Books.insert({TITLE:"Let us C",DESCRIPTION:"C programming for practitioners",BY:"Balagurusamy",URL:"www.letusc.org",TAGS:"C",LIKES:1000000000})
+ 
+
+db.Books.insert({TITLE:"Cloud Computing",DESCRIPTION:"Cloud Computing",BY:"M. S. Dhoni",URL:"www.CloudComputing.org",TAGS:"CloudComputing",LIKES:100})
+
+ 
+
+
+
+
+
+3	Insert 1 more document in collection with additional field of user name and comments.
+
+db.Books.insert({TITLE:"Cloud Computing",DESCRIPTION:"Cloud Computing",BY:"M. S. Dhoni",URL:"www.CloudComputing.org",TAGS:"CloudComputing",LIKES:100,USERNAME:"Akshay",COMMENTS:"Nice Book"})
+
+ 
+
+4	Display all the documents whose title is 'mongodb'.
+
+db.Books.find({TITLE:"MongoDB").pretty()
+
+ 
+
+
+
+5. Display all the documents written by 'john' or whose title is 'mongodb'.
+
+db.Books.find({$or:[{TITLE:"MongoDB"} , {BY:"john"}]}).pretty()
+
+ 
+
+
+6. Display all the documents whose title is 'mongodb' and written by 'john'.
+
+
+db.Books.find({$and:[{TITLE:"MongoDB"} , {BY:"john"}]}).pretty()
+
+
+
+
+ 
+
+7. Display all the documents whose like is greater than 10.  
+db.Books.find({LIKES :{$gt:10}}).pretty()
+
+ 
+
+8	Display all the documents whose like is greater than 100 and whose title is either 'mongodb' or written by 'john'.
+
+db.Books.find({$or:[{TITLE:"MongoDB"} , {BY:"john"}, {LIKES: {$gt:10}}]}).pretty()
+ 
+
+
+
+
+
+
+9	Update the title of 'mongodb' document to 'mongodb overview'
+
+db.Books.update({TITLE:"MongoDB"},{$set: {TITLE:"MongoDB Overview"}})
+
+ 
+
+
+10.	Delete the document titled 'nosql overview'.
+             db.Books.remove({TITLE:"NoSQL Overview"})
+             
+
+11.            Display exactly two documents written by 'john'.
+                  db.Books.find({BY:"john"}).pretty().limit(1)
+                   
+12.              Display the second document published by 'john'
+                   db.Books.find({BY:"john"}).pretty().skip(1)
+ 
+
+
+ 
+13.    Display all the books in the sorted fashion.
+         db.Books.find().pretty().sort({TITLE:1})
+ 
+
+
+14. Insert a document using save method.
+db.Books.save({TITLE:"Java: The Complete Reference Edition 7",DESCRIPTION:"best reference book for Java",BY:"Herbert Shieldt",URL:"www.javacompletereference.com",TAGS:"Java",LIKES:10000000000})
+
+ 
+
+
+
+            
+                  
+
+
+      
+
+
+
+
+
+
+
+ 
+
